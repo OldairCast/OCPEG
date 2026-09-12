@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Assunto";
+}
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Pesquisa ChatGPT</h1>
+
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Pesquisa</label>
+                    <input type="button" onclick="fnInsert();" value="Enviar" class="btn btn-primary" />
+                    
+                    <textarea id="chatSearch" class="form-control" rows="10">
+                      {
+                        "ingredients": [
+                            "2 tomates",
+                            "1 ovo",
+                            "1 cebola",
+                            "1kg macarrão"
+                        ]
+                      }
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Resultado</label>
+                    <textarea id="chatResult" name="chatResult" class="form-control" rows="10">
+                    </textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="pt-4">
+    <a id="productIndex" asp-action="Index">Voltar para Lista</a>
+</div>
+
+<script language="javascript" type="text/javascript">
+
+    function fnInsert() {
+        var url =  sessionStorage.getItem('Url') + "ChatGpt/Execute";
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var request = $.ajax({
+            type: "POST",
+            data: { __RequestVerificationToken: token, request: $("#chatSearch").val() },
+            url: url,
+            cache: false,
+            beforeSend: function () {
+                //window.exceller.Wait(true);
+            }
+        });
+        request.done(function (response) {
+            if (response.status != 1) {
+                //Erro
+                alert(response.message);
+            } else {
+                $("#chatResult").val(response.Exchange);
+                alert("Operação realizada com sucesso");
+            }
+        });
+        request.fail(function (xhr, textStatus) {
+            alert(xhr.statusText + " - " + textStatus);
+        });
+    }
+</script>

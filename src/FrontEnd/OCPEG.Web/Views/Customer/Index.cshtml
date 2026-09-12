@@ -1,0 +1,76 @@
+﻿@model OCPEG.Web.ViewModels.CustomerViewModel
+
+@{
+    ViewData["Title"] = "Cliente";
+}
+
+<br/>
+<br/>
+<div class="container p-4 border">
+    <div class="row pb-2">
+        <div class="col">
+            <h1 class="text-primary">Cliente</h1>
+        </div>
+        <div class="col text-end pt-1">
+            <a asp-action="Create" class="btn btn-outline-primary">
+                <i class="fas fa-plus"></i>&nbsp;Novo
+            </a>
+        </div>
+    </div>   
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Telefone
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Customers == null || !Model.Customers.Any()) {
+                    <tr>
+                        <td colspan="4" class="text-center">Nenhum cliente encontrado.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model.Customers)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Telephone)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.CustomerId">
+                                    <i class="fas fa-edit"></i>&nbsp;Alterar
+                                </a>
+                                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.CustomerId">
+                                    <i class="fas fa-trash"></i>&nbsp;Excluir
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            
+        </tbody>
+    </table>
+</div>
+
+<div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+</div>

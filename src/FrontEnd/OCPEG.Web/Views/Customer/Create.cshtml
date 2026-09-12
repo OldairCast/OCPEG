@@ -1,0 +1,76 @@
+﻿@model OCPEG.Web.ViewModels.CustomerViewModel
+
+@{
+    ViewData["Title"] = "Cliente";
+    var usersType = new SelectList(Model.Type, "Id", "Name");
+}
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Cliente</h1>
+
+    <h4 class="pt-2">Inclusão</h4>
+
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group pt-3">
+                    <label asp-for="Customer.Name" class="control-label">Nome</label>
+                    <input asp-for="Customer.Name" class="form-control" />
+                    <span asp-validation-for="Customer.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-3">
+                    <label asp-for="Customer.Email" class="control-label">Email</label>
+                    <input asp-for="Customer.Email" class="form-control" />
+                    <span asp-validation-for="Customer.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-3">
+                    <label asp-for="Customer.Telephone" class="control-label">Telefone</label>
+                    <input type="Number" asp-for="Customer.Telephone" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" placeholder="(99)-99999-9999" class="form-control">
+                        <span asp-validation-for="Customer.Telephone" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-3">
+                        <label asp-for="Customer.Age" class="control-label">Idade</label>
+                        <input type="Number" asp-for="Customer.Age" class="form-control">
+                            <span asp-validation-for="Customer.Age" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-3">
+                            <label asp-for="Customer.EnrollmentDate" class="control-label">Data de Inscrição</label>
+                            <input type="date" asp-for="Customer.EnrollmentDate" class="form-control" />
+                            <span asp-validation-for="Customer.EnrollmentDate" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-3">
+                            <label asp-for="Customer.Text" class="control-label">Comentário</label>
+                            <input asp-for="Customer.Text" class="form-control" />
+                            <span asp-validation-for="Customer.Text" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-3">
+                            <label asp-for="Customer.MonthlyPayment" class="control-label">Mensalidade</label>
+                            <input type="text" asp-for="Customer.MonthlyPayment" asp-format="{0:#.###,00}" class="form-control" />
+                            <span asp-validation-for="Customer.MonthlyPayment" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pt-3">
+                            <label asp-for="Customer.TypeId" class="control-label">Tipo de Cliente</label>
+
+                            <select asp-for="Customer.TypeId" asp-items="@usersType" class="form-control">
+                        <option disabled>--- Selecionar ---</option>
+                    </select>
+                            <span asp-validation-for="Customer.TypeId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pt-4">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="pt-4">
+    <a asp-action="Index">Voltar para Lista</a>
+</div>
+

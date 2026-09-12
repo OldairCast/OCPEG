@@ -1,0 +1,54 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCEPG.Infrastructure", "OCEPG.Infrastructure\OCEPG.Infrastructure.csproj", "{E590BA15-8842-CC41-2D54-05D85CACE079}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCPEG.API", "OCPEG.API\OCPEG.API.csproj", "{4092571F-D930-0B31-B462-E2333B21BDF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCPEG.Application", "OCPEG.Application\OCPEG.Application.csproj", "{5E5A3375-28FF-C977-28E4-1A2D06C34407}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCPEG.Domain", "OCPEG.Domain\OCPEG.Domain.csproj", "{71D9B8DC-DED0-D688-C99E-95C217657341}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCPEG.Domain.Enum", "OCPEG.Domain.Enum\OCPEG.Domain.Enum.csproj", "{56DFDF2F-9384-EEC0-4919-10E8AEC9C387}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCPEG.Framework", "OCPEG.Framework\OCPEG.Framework.csproj", "{6C1C75A0-8D5B-8926-F699-F9CA27F27DF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E590BA15-8842-CC41-2D54-05D85CACE079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E590BA15-8842-CC41-2D54-05D85CACE079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E590BA15-8842-CC41-2D54-05D85CACE079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E590BA15-8842-CC41-2D54-05D85CACE079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4092571F-D930-0B31-B462-E2333B21BDF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4092571F-D930-0B31-B462-E2333B21BDF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4092571F-D930-0B31-B462-E2333B21BDF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4092571F-D930-0B31-B462-E2333B21BDF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E5A3375-28FF-C977-28E4-1A2D06C34407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E5A3375-28FF-C977-28E4-1A2D06C34407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E5A3375-28FF-C977-28E4-1A2D06C34407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E5A3375-28FF-C977-28E4-1A2D06C34407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71D9B8DC-DED0-D688-C99E-95C217657341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71D9B8DC-DED0-D688-C99E-95C217657341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71D9B8DC-DED0-D688-C99E-95C217657341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71D9B8DC-DED0-D688-C99E-95C217657341}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56DFDF2F-9384-EEC0-4919-10E8AEC9C387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56DFDF2F-9384-EEC0-4919-10E8AEC9C387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56DFDF2F-9384-EEC0-4919-10E8AEC9C387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56DFDF2F-9384-EEC0-4919-10E8AEC9C387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C1C75A0-8D5B-8926-F699-F9CA27F27DF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C1C75A0-8D5B-8926-F699-F9CA27F27DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C1C75A0-8D5B-8926-F699-F9CA27F27DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C1C75A0-8D5B-8926-F699-F9CA27F27DF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18DD86AC-DFBC-474B-A95B-16BA7E77F848}
+	EndGlobalSection
+EndGlobal

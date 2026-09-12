@@ -1,0 +1,6 @@
+services:
+  ocpeg.api:
+    image: ${DOCKER_REGISTRY-}ocpegapi
+    build:
+      context: .
+      dockerfile: src/BackEnd/OCPEG.API/Dockerfile

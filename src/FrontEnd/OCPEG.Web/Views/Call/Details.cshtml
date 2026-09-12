@@ -1,0 +1,109 @@
+﻿@using static OCPEG.Domain.Enum.Enums
+@using static OCPEG.Framework.Enums
+@model OCPEG.Web.ViewModels.CallViewModel
+
+@{
+    bool closed = Model.StatusSel!.Id == StatusEn.Fechado.ToString();
+}
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Atendimento</h1>
+
+    <h4 class="pt-2">Detalhes do Protocolo</h4>
+
+    <div class="row pt-3">
+        <div class="">
+            <form id="frmDetails" asp-action="Update">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <dl class="row">
+                    <dt class = "col-sm-2">
+                        <label>Protocolo</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.CallNumber)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        <label>Data de Inicio</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.StartDate)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        <label>Cliente</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Customer!.Name)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        <label>Assunto</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.ProductSel!.Name)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        <label>Prioridade</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.PrioritySel!.Name)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        <label>Status</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.StatusSel!.Name)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.Comment)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        <textarea asp-for="Comment" rows="5" cols="40" class="form-control">Model.Comment</textarea>
+                    </dd>
+                </dl>
+
+                <input type="hidden" id="CallNumber" name="CallNumber" value="@Model.CallNumber" />
+                <input type="hidden" id="CallId" name="CallId" value="@Model.Id" />
+
+                <div class="form-group pt-4">
+                    @{
+                        if (!closed)
+                        {
+                            <input type="submit" value="Alterar"  id="btnCallEdit" class="btn btn-primary" style="margin-right:20px"/>
+                        }
+
+                        <input type="button" value="Resolução" onclick="fnResolucao();" id="btnCallResolution" class="btn btn-primary" />
+                    }
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="pt-4">
+    <a asp-action="Index">Voltar para Lista</a>
+</div>
+
+<script language="javascript" type="text/javascript">
+    
+    $(document).ready(function() {
+        if ("@closed" == "True") {
+            $("#Comment").attr("disabled", true);
+        }
+ 
+    });
+
+
+    function fnResolucao() {
+        document.getElementById("frmDetails").action = "/Resolution/Edit?callId=" + $("#CallId").val();
+        document.getElementById("frmDetails").submit();
+    }
+
+    function fnBack() {
+        document.getElementById("frmDetails").action = "/Call/Index";
+        document.getElementById("frmDetails").submit();
+    }
+</script>

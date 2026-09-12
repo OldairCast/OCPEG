@@ -1,0 +1,58 @@
+﻿@model OCPEG.Web.ViewModels.UserRegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Registre-se</h1>
+
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <form asp-action="Register">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group pt-4">
+                    <label asp-for="FirstName" class="control-label">Nome</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="LastName" class="control-label">Sobrenome</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="UserName" class="control-label">Usuário</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="Email" class="control-label">Email</label>
+                    <input type="email" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="PhoneNumber" class="control-label">Telefone</label>
+                    <input type="Number" asp-for="PhoneNumber" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" placeholder="(99)-99999-9999"class="form-control">
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="Password" class="control-label">Senha</label>
+                    <input type="password" asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="RetypePassword" class="control-label">Redigite a Senha</label>
+                    <input type="password" asp-for="RetypePassword" class="form-control" />
+                    <span asp-validation-for="RetypePassword" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

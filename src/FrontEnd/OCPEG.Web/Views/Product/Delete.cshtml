@@ -1,0 +1,106 @@
+﻿@model OCPEG.Domain.BusinessObject.Product
+
+@{
+    ViewData["Title"] = "Assunto";
+}
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Assunto</h1>
+
+    <h4 class="pt-2">Confirma a Exclusão?</h4>
+
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <form asp-action="Delete" class="pt-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="button" onclick="fnDelete();" value="Excluir" class="btn btn-danger" />
+                <input type="hidden" id="Id" name="Id" value="@Model.Id" /> 
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="pt-4">
+    <a id="productIndex" asp-action="Index">Voltar para Lista</a>
+</div>
+
+<script language="javascript" type="text/javascript">
+
+function fnDelete() {
+    const url = sessionStorage.getItem('Url') + "Product/DeleteJson";
+    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+    const id = document.getElementById('Id').value;
+
+    // Monta os dados como x-www-form-urlencoded (igual ao jQuery faz por padrão)
+    const params = new URLSearchParams();
+    params.append('__RequestVerificationToken', token);
+    params.append('id', id);
+
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params.toString()
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro na requisição');
+        }
+        return response.json();
+    })
+    .then(response => {
+        if (response !== true) {
+            alert(response);
+        } else {
+            alert("Operação realizada com sucesso");
+            document.getElementById('productIndex').click();
+        }
+    })
+    .catch(error => {
+        alert(error.message);
+    });
+}
+
+
+    function fnDeleteJquery() {
+        var url =  sessionStorage.getItem('Url') + "Product/DeleteJson";
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var request = $.ajax({
+            type: "DELETE",
+            url: url,
+            data: { __RequestVerificationToken: token, id: $("#Id").val() },
+            cache: false,
+            beforeSend: function () {
+                //window.exceller.Wait(true);
+            }
+        });
+        request.done(function (response) {
+            if (response != true) {
+                //Erro
+                alert(response);
+            } else {
+                alert("Operação realizada com sucesso");
+                document.getElementById('productIndex').click();
+            }
+        });
+        request.fail(function (xhr, textStatus) {
+            alert(xhr.statusText + " - " + textStatus);
+        });
+    }
+
+
+</script>

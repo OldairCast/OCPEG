@@ -1,0 +1,49 @@
+﻿@model OCPEG.Web.ViewModels.ResolutionViewModel
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Resolução</h1>
+
+    <div class="row pt-3">
+        <div class="">
+            <form asp-action="Update">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <dl class="row">
+                    <dt class = "col-sm-2">
+                        <label>Protocolo</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.CallNumber)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        <label>Data de Resolução</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Date)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        <label>Usuário de Solução</label>
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.User)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.Comment)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        <textarea asp-for="Comment" rows="5" cols="40" disabled class="form-control">Model.Comment</textarea>
+                    </dd>
+                </dl>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="pt-4">
+    <a href="/Call">Voltar para Lista</a>
+</div>
+
+
+

@@ -1,0 +1,64 @@
+﻿@using static OCPEG.Domain.Enum.Enums
+@using static OCPEG.Framework.Enums
+@model OCPEG.Web.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Usuario";
+}
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Usuário</h1>
+
+    <h4 class="pt-2">Inclusão</h4>
+
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group pt-4">
+                    <label asp-for="User.Name" class="control-label">Nome</label>
+                    <input asp-for="User.Name" class="form-control" />
+                    <span asp-validation-for="User.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="User.Email" class="control-label">Email</label>
+                    <input type="email" asp-for="User.Email" class="form-control" />
+                    <span asp-validation-for="User.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="User.PhoneNumber" class="control-label">Telefone</label>
+                    <input type="Number" asp-for="User.PhoneNumber" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" placeholder="(99)-99999-9999" class="form-control">
+                        <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4">
+                    <label asp-for="Role" class="control-label">Perfil</label>
+                    <select id="Profile" name="Profile" class="form-control">
+                        <option value="@Convert.ToByte(UserRolesEn.User)">Usuário</option>
+                        <option value="@Convert.ToByte(UserRolesEn.Admin)">Administrador</option>
+                    </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pt-4">
+                    <label asp-for="Function" class="control-label">Funçao</label>
+                    <select id="Function" name="Profile" class="form-control">
+                        <option value="@Convert.ToByte(FunctionEn.Participante)">Participante</option>
+                        <option value="@Convert.ToByte(FunctionEn.Analista)">Analista</option>
+                    </select>
+                    <span asp-validation-for="Function" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pt-4">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="pt-4">
+    <a asp-action="Index">Voltar para Lista</a>
+</div>
+

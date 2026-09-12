@@ -1,0 +1,22 @@
+﻿@model OCPEG.Web.ViewModels.CustomerViewModel
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Ações</h1>
+
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <a asp-action="ReadMessage" class="btn btn-outline-success">
+                        <i class="fas fa-edit"></i>&nbsp;Ler Mensagens RabbitMQ
+                    </a>
+                    <a asp-action="ChatGpt" class="btn btn-outline-success">
+                        <i class="fas fa-edit"></i>&nbsp;ChatGPT
+                    </a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+﻿@model OCPEG.Web.ViewModels.CustomerTypeViewModel
+
+@{
+    ViewData["Title"] = "Tipo de Cliente";
+}
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Tipo de Cliente</h1>
+
+    <h4 class="pt-2">Alteração</h4>
+
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CustomerType.Name" class="control-label">Nome</label>
+                    <input asp-for="CustomerType.Name" class="form-control" />
+                    <span asp-validation-for="CustomerType.Name" class="text-danger"></span>
+                </div>
+            
+                <input type="hidden" id="CustomerType.Id" name="CustomerType.Id" value="@Model?.CustomerType?.Id" />
+            
+                <div class="form-group pt-4">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="pt-4">
+    <a asp-action="Index">Voltar para Lista</a>
+</div>
+

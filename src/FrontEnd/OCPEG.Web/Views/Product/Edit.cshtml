@@ -1,0 +1,75 @@
+﻿@model OCPEG.Domain.BusinessObject.Product
+
+@{
+    ViewData["Title"] = "Assunto";
+}
+
+<br />
+<br />
+<div class="container border p-3">
+    <h1 class="text-primary">Assunto</h1>
+
+    <h4 class="pt-2">Alteração</h4>
+
+    <div class="row pt-3">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+            
+                <div class="form-group pt-4">
+                    <input type="button" onclick="fnUpdate();" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="pt-4">
+    <a id="productIndex" asp-action="Index">Voltar para Lista</a>
+</div>
+
+<script language="javascript" type="text/javascript">
+
+    function fnUpdate() {
+        var url =  sessionStorage.getItem('Url') + "Product/EditJson";
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var request = $.ajax({
+            type: "PUT",
+            data: { __RequestVerificationToken: token, Id: $("#Id").val(), Name: $("#Name").val() },
+            url: url,
+            cache: false,
+            beforeSend: function () {
+                //window.exceller.Wait(true);
+            }
+        });
+        request.done(function (response) {
+            if (response != true) {
+                //Erro
+                alert(response);
+            } else {
+                $("#Name").val("");
+                alert("Operação realizada com sucesso");
+                document.getElementById('productIndex').click();
+            }
+            
+        });
+        request.fail(function (xhr, textStatus) {
+            alert(xhr.statusText + " - " + textStatus);
+        });
+    }
+
+
+
+
+
+    $(document).ready(function() {
+        $("#Name").focus();
+    });
+</script>
