@@ -281,9 +281,8 @@ namespace OCPEG.API.Extensions
             //Fecha o exemplo 
             */
 
-            string[] allowedAddresses = configuration
-                .GetSection("MySettings:AllowedAddresses")
-                .Get<string[]>() ?? Array.Empty<string>();
+            var addresses = configuration.GetValue<string>("MySettings:AllowAddress");
+            string[] allowedAddresses = string.IsNullOrEmpty(addresses) ? Array.Empty<string>() : addresses.Split(";");
 
             services.AddCors(options =>
             {

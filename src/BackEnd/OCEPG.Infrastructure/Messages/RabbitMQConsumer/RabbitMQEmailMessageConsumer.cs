@@ -6,10 +6,8 @@ using OCPEG.Domain.BusinessObject.Message;
 using OCPEG.Framework;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Collections;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Channels;
 
 //implementa um Consumer RabbitMQ como um BackgroundService do .NET, ou seja,
 //um processo que fica rodando em segundo plano dentro da aplicação,
@@ -173,9 +171,10 @@ public sealed class RabbitMQEmailMessageConsumer : BackgroundService
         IChannel channel,
         CancellationToken cancellationToken)
     {
-        /*
-         * Exchange principal
-         */
+        // ============================================================
+        // 1. Exchange principal
+        // ============================================================
+
         await channel.ExchangeDeclareAsync(
             exchange: ExchangeName,
             type: ExchangeType.Direct,
@@ -183,9 +182,11 @@ public sealed class RabbitMQEmailMessageConsumer : BackgroundService
             autoDelete: false,
             cancellationToken: cancellationToken);
 
-        /*
-         * Dead Letter Exchange
-         */
+
+        // ============================================================
+        // 2. Dead Letter Exchange
+        // ============================================================
+
         await channel.ExchangeDeclareAsync(
             exchange: DeadLetterExchangeName,
             type: ExchangeType.Direct,
@@ -193,9 +194,11 @@ public sealed class RabbitMQEmailMessageConsumer : BackgroundService
             autoDelete: false,
             cancellationToken: cancellationToken);
 
-        /*
-         * Dead Letter Queue
-         */
+
+        // ============================================================
+        // 3. Dead Letter Queue
+        // ============================================================
+
         await channel.QueueDeclareAsync(
             queue: DeadLetterQueueName,
             durable: true,
@@ -204,22 +207,26 @@ public sealed class RabbitMQEmailMessageConsumer : BackgroundService
             arguments: null,
             cancellationToken: cancellationToken);
 
+
+        // ============================================================
+        // 4. Binding da DLQ -> DLX
+        // ============================================================
+
         await channel.QueueBindAsync(
             queue: DeadLetterQueueName,
             exchange: DeadLetterExchangeName,
             routingKey: DeadLetterRoutingKey,
             cancellationToken: cancellationToken);
 
-        /*
-         * Queue principal.
-         *
-         * Qualquer mensagem rejeitada com:
-         *
-         * BasicNack(..., requeue: false)
-         *
-         * será enviada para o Dead Letter Exchange.
-         */
-        var arguments = new Dictionary<string, object?>
+
+        // ============================================================
+        // 5. Queue principal
+        //
+        // Mensagens rejeitadas com requeue=false serão encaminhadas
+        // para o Dead Letter Exchange.
+        // ============================================================
+
+        var queueArguments = new Dictionary<string, object?>
         {
             ["x-dead-letter-exchange"] = DeadLetterExchangeName,
             ["x-dead-letter-routing-key"] = DeadLetterRoutingKey
@@ -230,8 +237,13 @@ public sealed class RabbitMQEmailMessageConsumer : BackgroundService
             durable: true,
             exclusive: false,
             autoDelete: false,
-            arguments: arguments,
+            arguments: queueArguments,
             cancellationToken: cancellationToken);
+
+
+        // ============================================================
+        // 6. Binding da Queue principal -> Exchange principal
+        // ============================================================
 
         await channel.QueueBindAsync(
             queue: QueueName,
@@ -239,6 +251,7 @@ public sealed class RabbitMQEmailMessageConsumer : BackgroundService
             routingKey: RoutingKey,
             cancellationToken: cancellationToken);
     }
+
 
     private async Task ConsumeAsync(
         CancellationToken stoppingToken)
@@ -482,141 +495,3 @@ public sealed class RabbitMQEmailMessageConsumer : BackgroundService
     }
 }
 
-
-
-
-
-
-
-
-
-//using Microsoft.Extensions.Hosting;
-//using Microsoft.Extensions.Options;
-//using OCPEG.Application.UseCasesServices.Interfaces.ServiceExternal.Message;
-//using OCPEG.Domain.BusinessObject.Message;
-//using OCPEG.Framework;
-//using RabbitMQ.Client;
-//using RabbitMQ.Client.Events;
-//using System.Text;
-//using System.Text.Json;
-
-
-//namespace OCEPG.Infrastructure.Messages.RabbitMQConsumer
-//{
-//    public class RabbitMQEmailMessageConsumer : BackgroundService
-//    {
-//        private readonly string _hostName;
-//        private readonly string _userName;
-//        private readonly string _password;
-//        private IConnection? _connection;
-//        private IChannel? _channel;
-//        private readonly IRabbitMQMessageSender _rabbitMQMessageSender;
-
-//        public RabbitMQEmailMessageConsumer(IRabbitMQMessageSender rabbitMQMessageSender, IOptions<RabbitMQSettings> options)
-//        {
-//            _rabbitMQMessageSender = rabbitMQMessageSender;
-
-//            var settings = options.Value;
-
-//            _hostName = settings.HostName;
-//            _userName = settings.UserName;
-//            _password = settings.Password;
-//        }
-
-//        public override async Task StartAsync(CancellationToken cancellationToken)
-//        {
-//            var factory = new ConnectionFactory
-//            {
-//                HostName = _hostName,
-//                UserName = _userName,
-//                Password = _password
-//            };
-
-//            _connection = await factory.CreateConnectionAsync();
-
-//            _channel = await _connection.CreateChannelAsync();
-
-//            await _channel.QueueDeclareAsync(
-//                queue: "checkoutqueueEmail",
-//                durable: false,
-//                exclusive: false,
-//                autoDelete: false,
-//                arguments: null);
-
-//            await base.StartAsync(cancellationToken);
-//        }
-
-
-//        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-//        {
-//            stoppingToken.ThrowIfCancellationRequested();
-
-//            if (_channel != null)
-//            {
-//                AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(_channel);
-
-//                consumer.ReceivedAsync += async (sender, eventArgs) =>
-//                {
-//                    try
-//                    {
-//                        var content = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-
-//                        var vo = JsonSerializer.Deserialize<EmailHeaderVO>(content);
-
-//                        if (vo != null)
-//                        {
-//                            await ProcessOrder(vo);
-//                        }
-
-//                        await _channel.BasicAckAsync(
-//                            eventArgs.DeliveryTag,
-//                            multiple: false);
-//                    }
-//                    catch (Exception ex)
-//                    {
-//                        // Log do erro
-//                        NLogManager.LogError($"{ex}");
-
-//                        await _channel.BasicNackAsync(
-//                            eventArgs.DeliveryTag,
-//                            multiple: false,
-//                            requeue: true);
-//                    }
-//                };
-
-
-//                await _channel.BasicConsumeAsync(
-//                    queue: "checkoutqueueEmail",
-//                    autoAck: false,
-//                    consumer: consumer);
-
-//            }
-//        }
-
-
-//        private async Task ProcessOrder(EmailHeaderVO vo)
-//        {
-//            await _rabbitMQMessageSender.SendMessageAsync(vo, "orderpaymentprocessqueue");
-
-//            await Task.CompletedTask;
-//        }
-
-
-//        public override async Task StopAsync(CancellationToken cancellationToken)
-//        {
-//            if (_channel != null)
-//            {
-//                await _channel.CloseAsync();
-//                _channel.Dispose();
-//            }
-
-//            if (_connection != null)
-//            {
-//                await _connection.CloseAsync();
-//                _connection.Dispose();
-//            }
-
-//            await base.StopAsync(cancellationToken);
-//        }
-//    }
-//}

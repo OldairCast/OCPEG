@@ -45,7 +45,8 @@
     function fnInsert() {
         var url =  sessionStorage.getItem('Url') + "ChatGpt/Execute";
         var token = $('input[name="__RequestVerificationToken"]').val();
-
+        var request = $("#chatSearch").val();
+        debugger;
         var request = $.ajax({
             type: "POST",
             data: { __RequestVerificationToken: token, request: $("#chatSearch").val() },
